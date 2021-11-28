@@ -11,7 +11,7 @@ let weather = {
         const { icon, description } = data.weather[0];
         const { temp, humidity } = data.main;
         const { speed } = data.wind;
-        console.log(name, icon, description, temp, humidity, speed);
+        // console.log(name, icon, description, temp, humidity, speed);
 
         //Dom manipulation for inserting data into DOM ****************************
 
@@ -21,7 +21,26 @@ let weather = {
         document.querySelector(".temp").innerText = ((temp - 273).toFixed(1))+" ˚C";
         document.querySelector(".humidity").innerText = "Humidity : " + humidity + "%";
         document.querySelector(".wind").innerText = "Wind speed : " + speed + " km/h";
+
+        document.querySelector(".weather").classList.remove("loading");
+        document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?" + name+ "')"
+    },
+    search: function() {
+        this.fetchWeather(document.querySelector(".search-bar").value);
     }
 };
 
-document.querySelector(".search-bar")
+document.querySelector(".search-button").addEventListener("click", (event)=> {
+    weather.search();
+    document.querySelector(".search-bar").value = "";
+    // console.log(event);
+});
+
+document.querySelector(".search-bar").addEventListener("keyup", function(event){
+    if( event.key == "Enter"){
+        weather.search();
+        document.querySelector(".search-bar").value = "";
+    }
+});
+
+weather.fetchWeather("Haldwani");
